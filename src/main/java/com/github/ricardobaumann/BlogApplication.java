@@ -1,11 +1,17 @@
 package com.github.ricardobaumann;
 
+import java.security.Principal;
+
 import com.github.ricardobaumann.db.Post;
 import com.github.ricardobaumann.db.PostDAO;
 import com.github.ricardobaumann.health.TemplateHealthCheck;
 import com.github.ricardobaumann.resources.PostResource;
+import com.github.ricardobaumann.security.SimpleAuthenticator;
+import com.github.ricardobaumann.security.User;
 
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -50,6 +56,10 @@ public class BlogApplication extends Application<BlogConfiguration> {
         final TemplateHealthCheck healthCheck =
                 new TemplateHealthCheck();
             environment.healthChecks().register("template", healthCheck);
+            
+            environment.jersey().register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<Principal>()
+                    .setAuthenticator(new SimpleAuthenticator())
+                    .buildAuthFilter())); 
     }
     
     
