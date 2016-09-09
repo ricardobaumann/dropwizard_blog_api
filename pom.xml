@@ -30,6 +30,11 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
+
+
+
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -43,6 +48,18 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.16.10</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.dropwizard/dropwizard-hibernate -->
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-hibernate</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4-1206-jdbc42</version>
 		</dependency>
 	</dependencies>
 
