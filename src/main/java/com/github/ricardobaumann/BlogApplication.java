@@ -8,6 +8,7 @@ import com.github.ricardobaumann.resources.PostResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -32,6 +33,12 @@ public class BlogApplication extends Application<BlogConfiguration> {
     @Override
     public void initialize(final Bootstrap<BlogConfiguration> bootstrap) {
         bootstrap.addBundle(hibernate);
+        bootstrap.addBundle(new MigrationsBundle<BlogConfiguration>() {
+            @Override
+            public PooledDataSourceFactory getDataSourceFactory(BlogConfiguration configuration) {
+                return configuration.getDataSourceFactory();
+            }
+        });
     }
 
     @Override
