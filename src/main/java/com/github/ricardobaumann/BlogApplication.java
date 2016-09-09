@@ -1,5 +1,8 @@
 package com.github.ricardobaumann;
 
+import com.github.ricardobaumann.health.TemplateHealthCheck;
+import com.github.ricardobaumann.resources.PostResource;
+
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -23,7 +26,12 @@ public class BlogApplication extends Application<BlogConfiguration> {
     @Override
     public void run(final BlogConfiguration configuration,
                     final Environment environment) {
-        // TODO: implement application
+        environment.jersey().register(new PostResource());
+        
+        final TemplateHealthCheck healthCheck =
+                new TemplateHealthCheck();
+            environment.healthChecks().register("template", healthCheck);
+            
     }
 
 }
