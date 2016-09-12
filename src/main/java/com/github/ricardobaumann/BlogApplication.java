@@ -57,9 +57,12 @@ public class BlogApplication extends Application<BlogConfiguration> {
                 new TemplateHealthCheck();
             environment.healthChecks().register("template", healthCheck);
             
-            environment.jersey().register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<Principal>()
+            //TODO disabling auth because of dropwizard problems with simple authentications
+           /*
+            *  environment.jersey().register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<Principal>()
                     .setAuthenticator(new SimpleAuthenticator())
                     .buildAuthFilter())); 
+            */
     }
     
     
