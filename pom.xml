@@ -68,7 +68,20 @@
 			<artifactId>dropwizard-auth</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/net.java.dev.webdav/webdav-jaxrs -->
+		<dependency>
+			<groupId>net.java.dev.webdav</groupId>
+			<artifactId>webdav-jaxrs</artifactId>
+			<version>1.0</version>
+		</dependency>
 
+
+
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-testing</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>

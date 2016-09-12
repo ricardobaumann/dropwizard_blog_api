@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -31,7 +32,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PostResource {
 
-    private final AtomicLong counter = new AtomicLong();
+    private final AtomicLong counter = new AtomicLong(1L);
     private PostDAO postDAO;
     
     public PostResource(PostDAO postDAO) {
@@ -43,7 +44,14 @@ public class PostResource {
     @Path("{id}")
     public PostDTO getByID(@PathParam("id") Long id) {
         Post post = postDAO.find(id);
+        if (post==null) {
+            throw new NotFoundException();
+        }
         return new PostDTO(post.getTitle(), post.getContent(), post.getId());
+    }
+    
+    public void resetCounter() {
+        counter.set(1L);
     }
     
     @UnitOfWork

@@ -2,9 +2,13 @@ package com.github.ricardobaumann;
 
 import java.security.Principal;
 
+import org.glassfish.jersey.server.validation.internal.ValidationExceptionMapper;
+
 import com.github.ricardobaumann.db.Post;
 import com.github.ricardobaumann.db.PostDAO;
 import com.github.ricardobaumann.health.TemplateHealthCheck;
+import com.github.ricardobaumann.providers.NotFoundExceptionProvider;
+import com.github.ricardobaumann.providers.ValidationExceptionProvider;
 import com.github.ricardobaumann.resources.PostResource;
 import com.github.ricardobaumann.security.SimpleAuthenticator;
 import com.github.ricardobaumann.security.User;
@@ -63,6 +67,9 @@ public class BlogApplication extends Application<BlogConfiguration> {
                     .setAuthenticator(new SimpleAuthenticator())
                     .buildAuthFilter())); 
             */
+            
+            environment.jersey().register(new ValidationExceptionProvider());
+            environment.jersey().register(new NotFoundExceptionProvider());
     }
     
     
