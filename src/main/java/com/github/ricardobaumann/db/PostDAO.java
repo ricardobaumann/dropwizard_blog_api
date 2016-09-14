@@ -1,11 +1,14 @@
 package com.github.ricardobaumann.db;
 
+import javax.inject.Inject;
+
 import org.hibernate.SessionFactory;
 
 import io.dropwizard.hibernate.AbstractDAO;
 
 public class PostDAO extends AbstractDAO<Post> {
 
+    @Inject
     public PostDAO(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
