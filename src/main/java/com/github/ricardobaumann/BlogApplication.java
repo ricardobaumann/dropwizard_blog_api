@@ -1,8 +1,12 @@
 package com.github.ricardobaumann;
 
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+
+import com.github.ricardobaumann.security.User;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -35,9 +39,11 @@ public class BlogApplication extends Application<BlogConfiguration> {
         });
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public void run(final BlogConfiguration configuration, final Environment environment) {
-
+      environment.jersey().register(RolesAllowedDynamicFeature.class);
+      environment.jersey().register(new AuthValueFactoryProvider.Binder(User.class));
     }
 
 }

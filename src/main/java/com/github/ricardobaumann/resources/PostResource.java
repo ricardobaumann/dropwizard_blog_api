@@ -58,8 +58,9 @@ public class PostResource {
     
     @UnitOfWork
     @POST
-    public PostDTO create(PostDTO postDTO) {
+    public PostDTO create(PostDTO postDTO, @Auth User user) {
        Post post = new Post(counter.getAndIncrement(), postDTO.getTitle(), postDTO.getContent());
+       System.out.println("usuario: "+user.getName());
        post = postDAO.save(post);
        postDTO.setId(post.getId());
        return postDTO;

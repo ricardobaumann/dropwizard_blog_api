@@ -1,10 +1,16 @@
 package com.github.ricardobaumann.resources;
 
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 
 import javax.validation.ValidationException;
 import javax.ws.rs.client.Entity;
@@ -12,9 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.glassfish.jersey.server.validation.internal.ValidationExceptionMapper;
-import org.hamcrest.core.Is;
-import org.junit.After;
+import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -24,9 +28,14 @@ import com.github.ricardobaumann.db.Post;
 import com.github.ricardobaumann.db.PostDAO;
 import com.github.ricardobaumann.providers.NotFoundExceptionProvider;
 import com.github.ricardobaumann.providers.ValidationExceptionProvider;
+import com.github.ricardobaumann.security.OAuthAuthenticator;
+import com.github.ricardobaumann.security.OAuthAuthorizer;
+import com.github.ricardobaumann.security.User;
 
-import static org.hamcrest.core.Is.*;
-
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.AuthenticationException;
+import io.dropwizard.auth.oauth.OAuthCredentialAuthFilter;
 import io.dropwizard.testing.junit.ResourceTestRule;
 
 public class PostResourceTest {
@@ -35,17 +44,29 @@ public class PostResourceTest {
     
     private static PostResource postResource = new PostResource(postDAO);
     
+    private static OAuthAuthenticator oAuthAuthenticator = mock(OAuthAuthenticator.class);
+    
+    private static OAuthAuthorizer oAuthAuthorizer = mock(OAuthAuthorizer.class);
+    
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule
     .builder()
+    .setTestContainerFactory(new GrizzlyWebTestContainerFactory())
     .addResource(postResource)
     .addProvider(new ValidationExceptionProvider())
     .addProvider(new NotFoundExceptionProvider())
+    .addProvider(new AuthDynamicFeature(new OAuthCredentialAuthFilter.Builder<User>()
+            .setAuthenticator(oAuthAuthenticator)
+            .setAuthorizer(oAuthAuthorizer)
+            .setRealm("SUPER SECRET STUFF")
+            .setPrefix("Bearer")
+            .buildAuthFilter()))
+    .addProvider(new AuthValueFactoryProvider.Binder<>(User.class))
     .build();
 
     @Before
     public void setUp() throws Exception {
-        reset(postDAO);
+        reset(postDAO, oAuthAuthenticator, oAuthAuthorizer);
         postResource.resetCounter();
     }
    
@@ -61,7 +82,7 @@ public class PostResourceTest {
         when(postDAO.find(id )).thenReturn(post );
         
         assertThat(resources
-                .client()
+                .getJerseyTest()
                 .target("/posts/"+id)
                 .request(MediaType.APPLICATION_JSON)
                 .get(PostDTO.class),is(new PostDTO(title, content,id)));
@@ -73,7 +94,7 @@ public class PostResourceTest {
         Long id = 1L;
         when(postDAO.find(id)).thenReturn(null);
         
-        Response response = resources.client()
+        Response response = resources.getJerseyTest()
                 .target("/posts/"+id)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
@@ -82,7 +103,15 @@ public class PostResourceTest {
     }
 
     @Test
-    public void testCreateSuccesfully() {
+    public void testCreateSuccesfully() throws AuthenticationException {
+        
+        String credentials = "credentials";
+        User user = new User(1L, "user junit test", "user");
+        when(oAuthAuthenticator.authenticate(credentials)).thenReturn(Optional.of(user));
+        
+        String role = "admin";
+        when(oAuthAuthorizer.authorize(user, role )).thenReturn(true);
+        
         Long id = 1L;
         String title = "testpost";
         String content = "testcontent";
@@ -91,9 +120,10 @@ public class PostResourceTest {
         when(postDAO.save(post)).thenReturn(new Post(id, title, content));
         
         PostDTO dto = resources
-                .client()
+                .getJerseyTest()
                 .target("/posts")
                 .request()
+                .header("Authorization", "Bearer "+credentials)
                 .post(Entity.entity(new PostDTO(title, content, null), MediaType.APPLICATION_JSON), PostDTO.class);
         
         assertThat(dto.getId(), is(id));
@@ -104,18 +134,26 @@ public class PostResourceTest {
     }
     
     @Test
-    public void testCreateValidationErrors() {
+    public void testCreateValidationErrors() throws AuthenticationException {
         Long id = 1L;
         String title = "testpost";
         String content = "testcontent";
         Post post = new Post(id, title, content);
         
+        User user = new User(1L, "user junit test", "user");
+        String credentials = "credentials";
+        when(oAuthAuthenticator.authenticate(credentials )).thenReturn(Optional.of(user));
+        
+        String role = "admin";
+        when(oAuthAuthorizer.authorize(user, role )).thenReturn(true);
+        
         doThrow(ValidationException.class).when(postDAO).save(post);
         
         Response response = resources
-        .client()
+        .getJerseyTest()
         .target("/posts")
         .request()
+        .header("Authorization", "Bearer "+credentials)
         .post(Entity.entity(new PostDTO(title, content, null), MediaType.APPLICATION_JSON));
         
         assertThat(response.getStatus(), is(422));
