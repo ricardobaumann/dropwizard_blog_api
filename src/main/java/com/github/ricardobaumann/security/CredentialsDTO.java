@@ -15,6 +15,5 @@ public class CredentialsDTO {
    
    private String password;
    
-
    private String clientId;
 }

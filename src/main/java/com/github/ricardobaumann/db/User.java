@@ -1,4 +1,4 @@
-package com.github.ricardobaumann.security;
+package com.github.ricardobaumann.db;
 
 import java.security.Principal;
 

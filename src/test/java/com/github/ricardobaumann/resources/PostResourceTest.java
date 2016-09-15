@@ -26,11 +26,11 @@ import org.junit.Test;
 import com.github.ricardobaumann.api.PostDTO;
 import com.github.ricardobaumann.db.Post;
 import com.github.ricardobaumann.db.PostDAO;
+import com.github.ricardobaumann.db.User;
 import com.github.ricardobaumann.providers.NotFoundExceptionProvider;
 import com.github.ricardobaumann.providers.ValidationExceptionProvider;
 import com.github.ricardobaumann.security.OAuthAuthenticator;
 import com.github.ricardobaumann.security.OAuthAuthorizer;
-import com.github.ricardobaumann.security.User;
 
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;

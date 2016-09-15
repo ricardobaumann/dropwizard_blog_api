@@ -2,7 +2,7 @@ package com.github.ricardobaumann;
 
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
-import com.github.ricardobaumann.security.User;
+import com.github.ricardobaumann.db.User;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 
 import io.dropwizard.Application;

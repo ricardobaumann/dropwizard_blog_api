@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import org.joda.time.DateTime;
 
+import com.github.ricardobaumann.db.User;
+
 public class AccessTokenDAO {
 
     private static Map<UUID, AccessToken> accessTokenTable = new HashMap<>();

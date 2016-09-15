@@ -15,10 +15,12 @@ import javax.ws.rs.core.Response;
 import org.joda.time.DateTime;
 
 import com.github.ricardobaumann.UserDAO;
+import com.github.ricardobaumann.db.User;
 import com.github.ricardobaumann.security.AccessToken;
 import com.github.ricardobaumann.security.AccessTokenDAO;
 import com.github.ricardobaumann.security.CredentialsDTO;
-import com.github.ricardobaumann.security.User;
+
+import io.dropwizard.hibernate.UnitOfWork;
 
 @Path("/oauth/token")
 @Produces(MediaType.APPLICATION_JSON)
@@ -36,9 +38,11 @@ public class OAuthResource {
     }
     
     @POST
+    @UnitOfWork
     @Consumes(MediaType.APPLICATION_JSON)
     public String postForToken(CredentialsDTO dto
     ) {
+        System.out.println("post: "+dto);
         // Check if the grant type is allowed
         //if (!allowedGrantTypes.contains(grantType)) {
           //  Response response = Response.status(Status.METHOD_NOT_ALLOWED).build();
@@ -47,10 +51,11 @@ public class OAuthResource {
 
         // Try to find a user with the supplied credentials.
         Optional<User> user = userDAO.findUserByUsernameAndPassword(dto.getUsername(), dto.getPassword());
+        System.out.println("resgatou: "+user);
         if (user == null || !user.isPresent()) {
             throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED).build());
         }
-
+        System.out.println("resgatou: "+user.get());
         // User was found, generate a token and return it.
         AccessToken accessToken = accessTokenDAO.generateNewAccessToken(user.get(), new DateTime());
         return accessToken.getAccessTokenId().toString();

@@ -18,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 import com.github.ricardobaumann.api.PostDTO;
 import com.github.ricardobaumann.db.Post;
 import com.github.ricardobaumann.db.PostDAO;
-import com.github.ricardobaumann.security.User;
+import com.github.ricardobaumann.db.User;
 
 import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -60,7 +60,7 @@ public class PostResource {
     @POST
     public PostDTO create(PostDTO postDTO, @Auth User user) {
        Post post = new Post(counter.getAndIncrement(), postDTO.getTitle(), postDTO.getContent());
-       //System.out.println("usuario: "+user.getName());
+       System.out.println("usuario: "+user.getName());
        post = postDAO.save(post);
        postDTO.setId(post.getId());
        return postDTO;
