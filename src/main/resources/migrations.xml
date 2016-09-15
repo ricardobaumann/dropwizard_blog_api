@@ -33,4 +33,8 @@
     		</column>
     	</createTable>
     </changeSet>
+    
+    <changeSet id="4" author="test">
+    	<createSequence sequenceName="comment_seq"/>
+    </changeSet>
 </databaseChangeLog>

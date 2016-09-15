@@ -5,6 +5,7 @@ package com.github.ricardobaumann.resources;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -32,9 +33,10 @@ import io.dropwizard.hibernate.UnitOfWork;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PostResource {
 
-    private final AtomicLong counter = new AtomicLong(1L);
+    private static final AtomicLong counter = new AtomicLong(1L);
     private PostDAO postDAO;
     
+    @Inject
     public PostResource(PostDAO postDAO) {
        this.postDAO = postDAO;
     }

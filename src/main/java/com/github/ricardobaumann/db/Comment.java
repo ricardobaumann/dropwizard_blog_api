@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -16,18 +17,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="comment")
-public class Comment {  
+@Table(name = "comments")
+public class Comment {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @SequenceGenerator(name = "comment_seq", sequenceName = "comment_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")
     private Long id;
-    
+
     @NotNull
     @ManyToOne
     private Post post;
-    
+
     @NotNull
     private String content;
-    
+
 }

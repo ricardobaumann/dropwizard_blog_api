@@ -1,8 +1,8 @@
 package com.github.ricardobaumann.health;
 
-import com.codahale.metrics.health.HealthCheck;
+import com.hubspot.dropwizard.guice.InjectableHealthCheck;
 
-public class TemplateHealthCheck extends HealthCheck {
+public class TemplateHealthCheck extends InjectableHealthCheck {
 
     public TemplateHealthCheck() {
     }
@@ -14,5 +14,10 @@ public class TemplateHealthCheck extends HealthCheck {
             return Result.unhealthy("template doesn't include a name");
         }
         return Result.healthy();
+    }
+
+    @Override
+    public String getName() {
+        return "blog health";
     }
 }
