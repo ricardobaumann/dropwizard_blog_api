@@ -3,12 +3,15 @@ package com.github.ricardobaumann;
 import java.security.Principal;
 
 import org.glassfish.jersey.server.validation.internal.ValidationExceptionMapper;
+import org.hibernate.SessionFactory;
 
+import com.github.ricardobaumann.db.CommentDAO;
 import com.github.ricardobaumann.db.Post;
 import com.github.ricardobaumann.db.PostDAO;
 import com.github.ricardobaumann.health.TemplateHealthCheck;
 import com.github.ricardobaumann.providers.NotFoundExceptionProvider;
 import com.github.ricardobaumann.providers.ValidationExceptionProvider;
+import com.github.ricardobaumann.resources.CommentResource;
 import com.github.ricardobaumann.resources.PostResource;
 import com.github.ricardobaumann.security.SimpleAuthenticator;
 import com.github.ricardobaumann.security.User;
@@ -54,8 +57,11 @@ public class BlogApplication extends Application<BlogConfiguration> {
     @Override
     public void run(final BlogConfiguration configuration,
                     final Environment environment) {
-        final PostDAO postDAO = new PostDAO(hibernate.getSessionFactory());
+        SessionFactory sessionFactory = hibernate.getSessionFactory();
+        final PostDAO postDAO = new PostDAO(sessionFactory);
+        
         environment.jersey().register(new PostResource(postDAO));
+        environment.jersey().register(new CommentResource(new CommentDAO(sessionFactory), postDAO));
         
         final TemplateHealthCheck healthCheck =
                 new TemplateHealthCheck();

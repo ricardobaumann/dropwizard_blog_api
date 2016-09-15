@@ -19,4 +19,18 @@
             </column>
         </createTable>
     </changeSet>
+    
+    <changeSet id="3" author="test">
+    	<createTable tableName="comments">
+    		<column name="id" type="integer">
+    			<constraints primaryKey="true"/>
+    		</column>
+    		<column name="content" type="text">
+    			<constraints nullable="false"/>
+    		</column>
+    		<column name="post_id" type="integer">
+    			<constraints references="post" nullable="false" foreignKeyName="fk_post_comment"/>
+    		</column>
+    	</createTable>
+    </changeSet>
 </databaseChangeLog>
