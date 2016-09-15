@@ -13,6 +13,7 @@ public class OAuthAuthenticator implements Authenticator<String, User> {
 
     @Override
     public Optional<User> authenticate(String credentials) throws AuthenticationException {
-        return Optional.ofNullable(credentials == "valid" ? new User(1L, "user", "user") : null);
+        System.out.println(credentials);
+        return Optional.ofNullable(credentials.length()>0 ? new User(1L, "user", "user") : null);
     }
 }
