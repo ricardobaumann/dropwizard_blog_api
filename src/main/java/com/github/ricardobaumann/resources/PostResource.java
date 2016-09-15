@@ -5,6 +5,7 @@ package com.github.ricardobaumann.resources;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -58,6 +59,7 @@ public class PostResource {
     
     @UnitOfWork
     @POST
+    @RolesAllowed("post")
     public PostDTO create(PostDTO postDTO, @Auth User user) {
        Post post = new Post(counter.getAndIncrement(), postDTO.getTitle(), postDTO.getContent());
        System.out.println("usuario: "+user.getName());

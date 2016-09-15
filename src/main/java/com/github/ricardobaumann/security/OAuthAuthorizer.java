@@ -6,11 +6,11 @@ import com.github.ricardobaumann.db.User;
 
 import io.dropwizard.auth.Authorizer;
 
-// may be external class (internal for simplicity)
 @Singleton
 public class OAuthAuthorizer implements Authorizer<User> {
     @Override
     public boolean authorize(User user, String role) {
+        System.out.println(String.format("authorizing %s on %s", user,role));
         return true;
     }
 }
