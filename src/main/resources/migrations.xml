@@ -37,4 +37,25 @@
     <changeSet id="4" author="test">
     	<createSequence sequenceName="comment_seq"/>
     </changeSet>
+    
+    <changeSet id="5" author="test">
+    	<createTable tableName="users">
+    		<column name="id" type="serial">
+    			<constraints primaryKey="true"/>
+    		</column>
+    		<column name="username" type="varchar(255)">
+    			<constraints nullable="false"/>
+    		</column>
+    		 <column name="password" type="varchar(255)">
+    		 	<constraints nullable="false"/>
+    		 </column>
+    	</createTable>
+    	<createIndex tableName="users" indexName="uk_users_username" unique="true">
+    		<column name="username"></column>
+    	</createIndex>
+    	<insert tableName="users">
+    		<column name="username" value="admin"></column>
+    		<column name="password" value="admin"></column>
+    	</insert>
+    </changeSet>
 </databaseChangeLog>

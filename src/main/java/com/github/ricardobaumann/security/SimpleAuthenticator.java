@@ -6,6 +6,8 @@ package com.github.ricardobaumann.security;
 import java.security.Principal;
 import java.util.Optional;
 
+import com.github.ricardobaumann.db.User;
+
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
