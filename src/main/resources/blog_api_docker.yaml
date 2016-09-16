@@ -1,0 +1,15 @@
+--- 
+database: 
+  checkConnectionWhileIdle: false
+  driverClass: org.postgresql.Driver
+  maxSize: 32
+  maxWaitForConnection: 1s
+  minSize: 8
+  password: mysecretpassword
+  properties: 
+    charSet: UTF-8
+    hibernate.ddl-auto: create-drop
+    hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  url: "jdbc:postgresql://blogdb:5432/postgres"
+  user: postgres
+  validationQuery: "/* MyApplication Health Check */ SELECT 1"
