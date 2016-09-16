@@ -1,0 +1,15 @@
+version: '2'
+services:
+    blogapp:
+        build: .
+        image: blogapp:${COMMIT}
+        links:
+            - blogdb:blogdb
+        ports:
+            - "8080:8080"
+    blogdb:
+        image: postgres
+        expose:
+         - 5432
+        environment:
+          POSTGRES_PASSWORD: mysecretpassword
