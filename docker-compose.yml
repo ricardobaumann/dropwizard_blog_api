@@ -3,7 +3,7 @@ services:
     lb:
         image: dockercloud/haproxy
         ports:
-          - 80:80
+          - ${PORT}:80
         links:
           - blogapp
         volumes:
