@@ -1,4 +1,4 @@
-package com.github.ricardobaumann;
+package com.github.ricardobaumann.db;
 
 import java.util.Optional;
 
@@ -8,8 +8,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-
-import com.github.ricardobaumann.db.User;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import io.dropwizard.hibernate.UnitOfWork;

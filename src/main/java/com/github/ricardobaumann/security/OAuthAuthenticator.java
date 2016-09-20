@@ -6,8 +6,9 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.github.ricardobaumann.UserDAO;
+import com.github.ricardobaumann.db.AccessToken;
 import com.github.ricardobaumann.db.User;
+import com.github.ricardobaumann.db.UserDAO;
 
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;

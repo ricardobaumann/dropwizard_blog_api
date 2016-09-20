@@ -58,4 +58,18 @@
     		<column name="password" value="admin"></column>
     	</insert>
     </changeSet>
+    
+    <changeSet id="6" author="test">
+    	<createTable tableName="access_tokens">
+    		<column name="id" type="varchar(50)">
+    			<constraints primaryKey="true"/>
+    		</column>
+    		<column name="user_id" type="integer">
+    			<constraints references="users" nullable="false" foreignKeyName="fk_tokens_users"/>
+    		</column>
+    		<column name="last_access" type="timestamp">
+    			<constraints nullable="false"/>
+    		</column>
+    	</createTable>
+    </changeSet>
 </databaseChangeLog>
