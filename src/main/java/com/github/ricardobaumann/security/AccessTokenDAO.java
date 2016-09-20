@@ -6,7 +6,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.persistence.criteria.CriteriaBuilder;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
 
@@ -28,13 +30,20 @@ public class AccessTokenDAO extends AbstractDAO<AccessToken>{
     private static Map<String, AccessToken> accessTokenTable = new HashMap<>();
 
     public Optional<AccessToken> findAccessTokenById(final UUID accessTokenId) {
+        System.out.println("trying to fetch token: "+accessTokenId);
         String key = accessTokenId.toString();
         System.out.println("fetching key: "+key);
         AccessToken accessToken = accessTokenTable.get(accessTokenId.toString());
         if (accessToken == null) {
-           
+           System.out.println("not found on cache. fetching from database");
+           Query query = currentSession()
+                   .createQuery("select a from AcessToken a");
+           list(query).forEach((r -> {
+               System.out.println(r.getAccessTokenId());
+           }));
             accessToken = sessionFactory.openSession().get(AccessToken.class,accessTokenId.toString());
             if (accessToken==null) {
+                System.out.println("not found on database");
                 return Optional.empty();
             }
             accessTokenTable.put(accessToken.getAccessTokenId(), accessToken);
