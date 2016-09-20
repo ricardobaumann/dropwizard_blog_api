@@ -5,3 +5,4 @@ echo $PORT
 export COMMIT
 export PORT
 docker-compose up -d
+docker-compose scale blogapp=$2
