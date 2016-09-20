@@ -6,17 +6,14 @@ import javax.persistence.Entity;
 import org.hibernate.SessionFactory;
 import org.reflections.Reflections;
 
-import com.github.ricardobaumann.db.Post;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
 import io.dropwizard.ConfiguredBundle;
-import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.SessionFactoryFactory;
-import io.dropwizard.setup.Environment;
 
 public class BlogModule extends AbstractModule {
 
@@ -38,7 +35,6 @@ public class BlogModule extends AbstractModule {
 
         @Override
         public PooledDataSourceFactory getDataSourceFactory(BlogConfiguration configuration) {
-            // TODO Auto-generated method stub
             return configuration.getDataSourceFactory();
         }
     }

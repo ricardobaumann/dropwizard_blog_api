@@ -4,10 +4,8 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import io.dropwizard.hibernate.UnitOfWork;

@@ -26,15 +26,15 @@ public class OAuthAuthenticator implements Authenticator<String, User> {
         this.accessTokenDAO = accessTokenDAO;
         this.userDAO = userDAO;
     }
-    
+
     @UnitOfWork
     @Override
     public Optional<User> authenticate(String credentials) throws AuthenticationException {
-        System.out.println(credentials);
+        // System.out.println(credentials);
         Optional<AccessToken> accessToken = accessTokenDAO.findAccessTokenById(UUID.fromString(credentials));
-       if (!accessToken.isPresent()) {
-           return Optional.empty();
-       }
+        if (!accessToken.isPresent()) {
+            return Optional.empty();
+        }
         User user = userDAO.find(accessToken.get().getUserId());
         return Optional.of(user);
     }
