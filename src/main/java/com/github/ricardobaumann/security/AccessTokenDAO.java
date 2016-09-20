@@ -28,7 +28,9 @@ public class AccessTokenDAO extends AbstractDAO<AccessToken>{
     private static Map<String, AccessToken> accessTokenTable = new HashMap<>();
 
     public Optional<AccessToken> findAccessTokenById(final UUID accessTokenId) {
-        AccessToken accessToken = accessTokenTable.get(accessTokenId);
+        String key = accessTokenId.toString();
+        System.out.println("fetching key: "+key);
+        AccessToken accessToken = accessTokenTable.get(accessTokenId.toString());
         if (accessToken == null) {
            
             accessToken = sessionFactory.openSession().get(AccessToken.class,accessTokenId.toString());
@@ -44,13 +46,19 @@ public class AccessTokenDAO extends AbstractDAO<AccessToken>{
         AccessToken accessToken = new AccessToken(UUID.randomUUID().toString(), user.getId(), dateTime);
         accessTokenTable.put(accessToken.getAccessTokenId(), accessToken);
         persist(accessToken);
+        currentSession().flush();
         return accessToken;
     }
 
     public void setLastAccessTime(final UUID accessTokenUUID, final DateTime dateTime) {
-        AccessToken accessToken = accessTokenTable.get(accessTokenUUID);
+        AccessToken accessToken = accessTokenTable.get(accessTokenUUID.toString());
+        if (accessToken==null) {
+            accessToken = sessionFactory.openSession().get(AccessToken.class,accessTokenUUID.toString());
+            
+        }
         AccessToken updatedAccessToken = accessToken.withLastAccessUTC(dateTime);
         persist(updatedAccessToken);
+        currentSession().flush();
         accessTokenTable.put(accessTokenUUID.toString(), updatedAccessToken);
     }
 
