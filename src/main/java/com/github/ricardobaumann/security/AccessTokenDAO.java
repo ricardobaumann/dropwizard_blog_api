@@ -37,7 +37,7 @@ public class AccessTokenDAO extends AbstractDAO<AccessToken>{
         if (accessToken == null) {
            System.out.println("not found on cache. fetching from database");
            Query query = sessionFactory.openSession()
-                   .createQuery("select a from AcessToken a");
+                   .createQuery("select a from AccessToken a");
            list(query).forEach((r -> {
                System.out.println(r.getAccessTokenId());
            }));
