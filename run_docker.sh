@@ -1,4 +1,8 @@
 #!/bin/sh
 COMMIT="$(git rev-parse HEAD)"
+PORT=$1
+echo $PORT
 export COMMIT
-docker-compose up
+export PORT
+docker-compose up -d
+docker-compose scale blogapp=$2

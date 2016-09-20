@@ -14,9 +14,9 @@ import javax.ws.rs.core.Response;
 
 import org.joda.time.DateTime;
 
-import com.github.ricardobaumann.UserDAO;
+import com.github.ricardobaumann.db.AccessToken;
 import com.github.ricardobaumann.db.User;
-import com.github.ricardobaumann.security.AccessToken;
+import com.github.ricardobaumann.db.UserDAO;
 import com.github.ricardobaumann.security.AccessTokenDAO;
 import com.github.ricardobaumann.security.CredentialsDTO;
 
