@@ -15,6 +15,7 @@ import io.dropwizard.setup.Environment;
 public class BlogApplication extends Application<BlogConfiguration> {
 
     public static void main(final String[] args) throws Exception {
+
         new BlogApplication().run(args);
     }
 
