@@ -7,4 +7,4 @@ export COMMIT
 export PORT
 docker-compose up -d
 docker-compose scale blogapp=$SCALE
-docker-compose logs
+docker-compose logs -f
