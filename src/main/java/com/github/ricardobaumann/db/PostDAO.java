@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 
 import io.dropwizard.hibernate.AbstractDAO;
 
+import java.util.List;
+
 public class PostDAO extends AbstractDAO<Post> {
 
     @Inject
@@ -22,4 +24,7 @@ public class PostDAO extends AbstractDAO<Post> {
         
     }
 
+    public List<Post> findAll() {
+        return list(currentSession().createQuery("select p from Post"));
+    }
 }
