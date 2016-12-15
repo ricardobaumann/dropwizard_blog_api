@@ -69,11 +69,18 @@
 			<artifactId>dropwizard-auth</artifactId>
 		</dependency>
 
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-client</artifactId>
+        </dependency>
+
 		<dependency>
 			<groupId>com.hubspot.dropwizard</groupId>
 			<artifactId>dropwizard-guice</artifactId>
 			<version>1.0.0.1</version>
 		</dependency>
+
+
 
 		<dependency>
 			<groupId>com.graphql-java</groupId>
@@ -82,8 +89,16 @@
 		</dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
 
-		<dependency>
+
+
+        <dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-testing</artifactId>
 			<scope>test</scope>
@@ -202,26 +217,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.4</version>
-				<configuration>
-					<reportPlugins>
-						<plugin>
-							<artifactId>maven-project-info-reports-plugin</artifactId>
-							<version>2.4</version>
-							<configuration>
-								<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-								<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-							</configuration>
-						</plugin>
-						<plugin>
-							<artifactId>maven-javadoc-plugin</artifactId>
-							<version>2.10.3</version>
-						</plugin>
-					</reportPlugins>
-				</configuration>
-			</plugin>
+
 		</plugins>
 	</build>
 
